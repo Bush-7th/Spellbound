@@ -1,0 +1,308 @@
+[gd_scene format=3 uid="uid://ck8l13avqs41c"]
+
+[ext_resource type="Script" uid="uid://cgayvny71pw3r" path="res://Scripts/UI/SettingsUI.gd" id="1_t8pki"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ow21d"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.16470589, 0.16470589, 0.16470589, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 10
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t8pki"]
+bg_color = Color(0.2901961, 0.2901961, 0.2901961, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="Theme" id="Theme_t8pki"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_i4dvr"]
+thickness = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bcchf"]
+bg_color = Color(1, 0, 0.49803922, 1)
+border_color = Color(0.997227, 0.7010601, 0.8138502, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1f5m"]
+bg_color = Color(0, 0.47058824, 0.83137256, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_emn88"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_gbxiu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibfn7"]
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_1c5hs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0w7jt"]
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2atvo"]
+bg_color = Color(0.20392157, 0.20392157, 0.20392157, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3lsr7"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0, 0.49803922, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8old5"]
+bg_color = Color(1, 0.3019608, 0.6509804, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kl46t"]
+bg_color = Color(1, 0.3019608, 0.6509804, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="SettingsMenu" type="Control" unique_id=573310115]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t8pki")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=871775337]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=1281903040]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ow21d")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=869986226]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1149250147]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "SETTINGS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1144821958]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_t8pki")
+
+[node name="VBoxContVolume" type="VBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1897329851]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Volume_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContVolume" unique_id=639352875]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 0.8)
+theme_override_font_sizes/font_size = 18
+text = "VOLUME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Volume_HSlider" type="HSlider" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContVolume" unique_id=1521249506]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_t8pki")
+theme_override_constants/center_grabber = 20
+theme_override_styles/slider = SubResource("StyleBoxLine_i4dvr")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_bcchf")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_v1f5m")
+
+[node name="Control" type="Control" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContVolume" unique_id=1738900754]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=444004524]
+layout_mode = 2
+
+[node name="Language_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=1357229284]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 0.8)
+theme_override_font_sizes/font_size = 18
+text = "LANGUAGE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=1184938639]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 27
+alignment = 1
+
+[node name="EN_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1662113134]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_emn88")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gbxiu")
+text = "EN"
+
+[node name="RU_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1645687732]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_ibfn7")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_1c5hs")
+text = "RU"
+
+[node name="VBoxContVsync" type="VBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=818399463]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="VSync_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContVsync" unique_id=2036585168]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 0.8)
+theme_override_font_sizes/font_size = 18
+text = "VSYNC"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSync_CheckBox" type="CheckBox" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContVsync" unique_id=1840152635]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="VBoxContMaxFPS" type="VBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1853742218]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="MaxFPS_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContMaxFPS" unique_id=574924167]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 0.8)
+theme_override_font_sizes/font_size = 18
+text = "MAXFPS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContMaxFPS" unique_id=562121243]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_0w7jt")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2atvo")
+item_count = 4
+popup/item_0/text = "30 fps"
+popup/item_0/id = 0
+popup/item_1/text = "60 fps"
+popup/item_1/id = 1
+popup/item_2/text = "144 fps"
+popup/item_2/id = 2
+popup/item_3/text = "no limit"
+popup/item_3/id = 3
+
+[node name="VBoxContFullScreen" type="VBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1969172507]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="FullScreen_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContFullScreen" unique_id=537157015]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 0.8)
+theme_override_font_sizes/font_size = 18
+text = "FULLSCREEN"
+horizontal_alignment = 1
+
+[node name="FullScreen_CheckBox" type="CheckBox" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContFullScreen" unique_id=577552759]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 16
+
+[node name="KeyBinds_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1778325509]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_3lsr7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8old5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kl46t")
+text = "KEYBINDS"
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=80991108]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_t8pki")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=283215382]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 43
+
+[node name="Back_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1013739844]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_3lsr7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8old5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kl46t")
+text = "BACK"
+
+[node name="Apply_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1417818586]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_3lsr7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8old5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kl46t")
+text = "APPLY"
+
+[connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/HBoxContainer/EN_Button" to="." method="_on_lang_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/KeyBinds_Button" to="." method="_on_key_binds_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/Back_Button" to="." method="_on_button_pressed"]
