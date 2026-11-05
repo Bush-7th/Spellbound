@@ -4,7 +4,7 @@
 script/source = "extends Control
 @onready var start_button := $%StartButton
 @onready var settings_button := $%SettingsButton
-@onready var quit_button := $%QuitButtont
+@onready var quit_button := $%QuitButton
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,12 +13,13 @@ func _ready() -> void:
 
 
 func _on_start_button_pressed() -> void:
-	get_tree().change_scene_to_file(\"res://scenes/game.tscn\")
+	get_tree().change_scene_to_file(\"res://scenes/debug/node_2d.tscn\")
 
 
 
 func _on_settings_button_pressed() -> void:
-	get_tree().change_scene_to_file(\"res://scenes/UI/settings.tscn\")
+	var settings_overlay = preload(\"res://scenes/UI/settings_overlay.tscn\").instantiate()
+	add_child(settings_overlay)
 
 
 
@@ -84,7 +85,7 @@ horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="MarginContainer/MenuItems" unique_id=1662162450]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 56)
+custom_minimum_size = Vector2(200, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 37
 theme_override_styles/normal = SubResource("StyleBoxFlat_t8pki")
@@ -93,7 +94,7 @@ text = "START"
 
 [node name="SettingsButton" type="Button" parent="MarginContainer/MenuItems" unique_id=221689724]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 56)
+custom_minimum_size = Vector2(200, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 37
 theme_override_styles/normal = SubResource("StyleBoxFlat_t8pki")
@@ -102,7 +103,7 @@ text = "SETTINGS"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/MenuItems" unique_id=1683917942]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 56)
+custom_minimum_size = Vector2(200, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 37
 theme_override_styles/normal = SubResource("StyleBoxFlat_t8pki")

@@ -1,6 +1,5 @@
 extends Node
 
-# --- Пути к файлам ---
 const SETTINGS_PATH = "user://settings.json"
 const CONTROLS_PATH = "user://controls.json"
 
@@ -11,6 +10,7 @@ var fullscreen_mode: bool = false
 var current_language: String = "ru"
 
 # --- Управление (Keybinds) ---
+# Эти переменные нужны только для UI, чтобы показывать текущие кнопки
 var key_look_up: int = KEY_W
 var key_look_down: int = KEY_S
 var key_move_left: int = KEY_A
@@ -19,16 +19,14 @@ var key_jump: int = KEY_SPACE
 var key_dash: int = KEY_SHIFT
 var key_dodge: int = KEY_CTRL
 
-
 func _ready():
 	load_settings()
 	load_controls()
 	apply_settings()
 
 # ==========================================
-# ЛОГИКА ДЛЯ SETTINGS.JSON
+# ЛОГИКА ДЛЯ SETTINGS.JSON (Без изменений)
 # ==========================================
-
 func save_settings():
 	var settings = {
 		"Volume": master_volume,
@@ -36,47 +34,28 @@ func save_settings():
 		"Fullscreen": fullscreen_mode,
 		"Language": current_language
 	}
-	
 	var json_string = JSON.stringify(settings, "\t")
 	var file = FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
-	
-	if file == null:
-		push_error("Не удалось открыть " + SETTINGS_PATH)
-		return
-	file.store_string(json_string)
-	file.close()
-
+	if file:
+		file.store_string(json_string)
+		file.close()
 
 func load_settings():
-	if not FileAccess.file_exists(SETTINGS_PATH):
-		print("Файл settings.json не найден. Используются настройки по умолчанию.")
-		return
-		
+	if not FileAccess.file_exists(SETTINGS_PATH): return
 	var file = FileAccess.open(SETTINGS_PATH, FileAccess.READ)
-	if file == null:
-		push_error("Не удалось открыть " + SETTINGS_PATH)
-		return
-		
-	var json_string = file.get_as_text()
-	file.close()
-	
-	var json = JSON.new()
-	var parse_result = json.parse(json_string)
-	if parse_result != OK:
-		push_error("Ошибка парсинга JSON: " + json.get_error_message())
-		return
-	
-	var node_data = json.data	
-	if node_data is Dictionary:
-		master_volume = node_data.get("Volume", 1.0)
-		vsync_mode = node_data.get("VSync", DisplayServer.VSYNC_ENABLED)  # ИСПРАВЛЕНО: было "Vsync"
-		fullscreen_mode = node_data.get("Fullscreen", false)
-		current_language = node_data.get("Language", "ru")
-
+	if file:
+		var json = JSON.new()
+		if json.parse(file.get_as_text()) == OK:
+			var data = json.data
+			if data is Dictionary:
+				master_volume = data.get("Volume", 1.0)
+				vsync_mode = data.get("VSync", DisplayServer.VSYNC_ENABLED)
+				fullscreen_mode = data.get("Fullscreen", false)
+				current_language = data.get("Language", "ru")
+		file.close()
 
 func apply_settings():
 	DisplayServer.window_set_vsync_mode(vsync_mode)
-	
 	if fullscreen_mode:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -88,9 +67,8 @@ func apply_settings():
 	
 	TranslationServer.set_locale(current_language)
 
-
 # ==========================================
-# ЛОГИКА ДЛЯ CONTROLS.JSON
+# 🔥 ИСПРАВЛЕННАЯ ЛОГИКА ДЛЯ CONTROLS.JSON
 # ==========================================
 
 func save_controls():
@@ -103,46 +81,68 @@ func save_controls():
 		"dash": key_dash,
 		"dodge": key_dodge
 	}
-	
 	var json_string = JSON.stringify(controls, "\t")
 	var file = FileAccess.open(CONTROLS_PATH, FileAccess.WRITE)
-	
-	if file == null:
-		push_error("Не удалось открыть " + CONTROLS_PATH)
-		return
-	file.store_string(json_string)
-	file.close()
-
+	if file:
+		file.store_string(json_string)
+		file.close()
+	print("💾 Сохранено в: ", CONTROLS_PATH)
+	print("💾 Клавиша прыжка сохранена как: ", key_jump)
 
 func load_controls():
-	if not FileAccess.file_exists(CONTROLS_PATH):
-		print("Файл controls.json не найден. Используются стандартные клавиши.")
-		return
-		
-	var file = FileAccess.open(CONTROLS_PATH, FileAccess.READ)
-	if file == null:
-		push_error("Не удалось открыть " + CONTROLS_PATH)
-		return
-		
-	var json_string = file.get_as_text()
-	file.close()
-	
-	var json = JSON.new()
-	var parse_result = json.parse(json_string)
-	if parse_result != OK:
-		push_error("Ошибка парсинга controls.json: " + json.get_error_message())
-		return
-	
-	var controls_data = json.data	
-	if controls_data is Dictionary:
-		key_look_up = controls_data.get("look_up", KEY_W)
-		key_look_down = controls_data.get("look_down", KEY_S)
-		key_move_left = controls_data.get("move_left", KEY_A)
-		key_move_right = controls_data.get("move_right", KEY_D)
-		key_jump = controls_data.get("jump", KEY_SPACE)
-		key_dash = controls_data.get("dash", KEY_SHIFT)
-		key_dodge = controls_data.get("dodge", KEY_CTRL)
+	# 1. Сначала убедимся, что все действия существуют в InputMap
+	var actions_list = ["look_up", "look_down", "move_left", "move_right", "jump", "dash", "dodge"]
+	for action in actions_list:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
 
+	# 2. Загружаем данные из файла (если он есть)
+	var controls_data = {}
+	if FileAccess.file_exists(CONTROLS_PATH):
+		var file = FileAccess.open(CONTROLS_PATH, FileAccess.READ)
+		if file:
+			var json = JSON.new()
+			if json.parse(file.get_as_text()) == OK:
+				controls_data = json.data
+			file.close()
+
+	# 3. Применяем настройки к каждому действию
+	for action_name in actions_list:
+		# Получаем код клавиши из файла или берем дефолтный
+		var key_code = KEY_NONE
+		match action_name:
+			"look_up": key_code = controls_data.get("look_up", KEY_W)
+			"look_down": key_code = controls_data.get("look_down", KEY_S)
+			"move_left": key_code = controls_data.get("move_left", KEY_A)
+			"move_right": key_code = controls_data.get("move_right", KEY_D)
+			"jump": key_code = controls_data.get("jump", KEY_SPACE)
+			"dash": key_code = controls_data.get("dash", KEY_SHIFT)
+			"dodge": key_code = controls_data.get("dodge", KEY_CTRL)
+
+		# 🔥 ВАЖНО: Полностью очищаем действие от всех старых клавиш
+		InputMap.action_erase_events(action_name)
+		
+		# Создаем новое событие
+		var ev = InputEventKey.new()
+		ev.keycode = key_code
+		ev.physical_keycode = key_code # Важно для корректной работы на разных раскладках
+		
+		# Добавляем новую привязку
+		InputMap.action_add_event(action_name, ev)
+		
+		# Обновляем переменные для UI (чтобы в меню отображалась правильная кнопка)
+		match action_name:
+			"look_up": key_look_up = key_code
+			"look_down": key_look_down = key_code
+			"move_left": key_move_left = key_code
+			"move_right": key_move_right = key_code
+			"jump": key_jump = key_code
+			"dash": key_dash = key_code
+			"dodge": key_dodge = key_code
+			
+	print("✅ Keybinds applied instantly!")
+	print("📂 Загружена клавиша прыжка: ", key_jump)
+	print("📂 Проверка InputMap: ", InputMap.action_get_events("jump"))
 # Вспомогательная функция для UI
 func get_key_name(key_code: int) -> String:
 	return OS.get_keycode_string(key_code)

@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://dp0ijvcc4eipv"]
+
+[ext_resource type="Script" uid="uid://cnpu1u1wl1qnx" path="res://Scripts/UI/pause_menu.gd" id="1_qo2fb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_42rxj"]
+bg_color = Color(0.16470589, 0.16470589, 0.16470589, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1080859214]
+process_mode = 2
+layer = 10
+script = ExtResource("1_qo2fb")
+
+[node name="RootContainer" type="Control" parent="." unique_id=164016102]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="RootContainer" unique_id=1402814104]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14044744, 0.14044744, 0.14044744, 0.6901961)
+
+[node name="CenterContainer" type="CenterContainer" parent="RootContainer" unique_id=2123976725]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -68.0
+offset_right = 100.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="RootContainer/CenterContainer" unique_id=390111891]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="RootContainer/CenterContainer/PanelContainer" unique_id=1680287503]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RootContainer/CenterContainer/PanelContainer/VBoxContainer2" unique_id=1591137214]
+layout_mode = 2
+text = "PAUSE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="RootContainer/CenterContainer/PanelContainer/VBoxContainer2" unique_id=833381857]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_42rxj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RootContainer/CenterContainer/PanelContainer/VBoxContainer2" unique_id=1935627242]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="RootContainer/CenterContainer/PanelContainer/VBoxContainer2/VBoxContainer" unique_id=373139191]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CONTINUE"
+
+[node name="SettingsButton" type="Button" parent="RootContainer/CenterContainer/PanelContainer/VBoxContainer2/VBoxContainer" unique_id=38526952]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="MainMenuButton" type="Button" parent="RootContainer/CenterContainer/PanelContainer/VBoxContainer2/VBoxContainer" unique_id=1438051243]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MAINMENU"
+
+[connection signal="pressed" from="RootContainer/CenterContainer/PanelContainer/VBoxContainer2/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="RootContainer/CenterContainer/PanelContainer/VBoxContainer2/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="RootContainer/CenterContainer/PanelContainer/VBoxContainer2/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
