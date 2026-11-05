@@ -1,11 +1,17 @@
 class_name PlayerCharacter
 extends Character
 
+@export var max_stamina : float = 100
+var stamina : float = 0.0
 var hurt_animation_timer : float =  0
 var health: int
-var can_take_damage := true
-@export var spike_damage_cooldown: float = 0.5
+var damage_cooldown_timer: float = 0.0
+@export var damage_cooldown: float = 0.5
 var surface_speed_multiplier: float = 1.0
+var air_dash := true
+@export var stamina_regeneration_delay: float = 3.0
+@export var stamina_regeneration: float = 20.0
+var stamina_regeneration_timer: float = 0.0
 
 @export_category("Прыжок")
 @export var coyote_time: float = 0.10
@@ -36,23 +42,30 @@ var dodge_cooldown_timer: float = 0.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var health_bar: ProgressBar = $UI/HealthBar
+@onready var stamina_bar: ProgressBar = $UI/StaminaBar
 
 #изменение хп
 func _ready() -> void:
 	health = max_health
+	stamina = max_stamina
 	if health_bar:
 		health_bar.max_value = max_health
 		health_bar.value = health
-
+	if stamina_bar:
+		stamina_bar.max_value = max_stamina
+		stamina_bar.value = stamina
 
 func _physics_process(delta: float) -> void:
 	# Перезарядка уклонения
 	dodge_cooldown_timer = maxf(dodge_cooldown_timer - delta,0.0)
 	hurt_animation_timer = maxf(hurt_animation_timer - delta, 0.0)
+	damage_cooldown_timer = maxf(damage_cooldown_timer - delta,0.0)
+
+	update_stamina_regeneration(delta)
 
 	# уклон
 	if Input.is_action_just_pressed("dodge"):
-		if (is_on_floor() and not is_dashing and not is_dodging and dodge_cooldown_timer == 0.0):
+		if (is_on_floor() and not is_dashing and not is_dodging and dodge_cooldown_timer == 0.0 and stamina >= 20):
 			var input_direction := Input.get_axis("move_left","move_right")
 			if input_direction != 0.0:
 				facing_direction = signf(input_direction)
@@ -70,6 +83,7 @@ func _physics_process(delta: float) -> void:
 	# койот
 	if is_on_floor():
 		coyote_timer = coyote_time
+		air_dash = true
 	else:
 		coyote_timer = maxf(coyote_timer - delta, 0.0)
 
@@ -84,7 +98,7 @@ func _physics_process(delta: float) -> void:
 	dash_cooldown_timer = maxf(dash_cooldown_timer - delta, 0.0)
 	# рывок
 	if Input.is_action_just_pressed("dash"):
-		if not is_dashing and dash_cooldown_timer == 0.0:
+		if not is_dashing and dash_cooldown_timer == 0.0 and stamina >= 30 and (is_on_floor() or air_dash):
 			perform_dash()
 	if is_dashing:
 		velocity = Vector2(dash_direction * dash_speed, 0.0)
@@ -117,7 +131,7 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and jump_buffer_timer > 0.0:
 		perform_jump()
 
-	check_spikes()
+	#check_spikes()
 	_update_animation(direction)
 
 
@@ -166,6 +180,14 @@ func perform_jump() -> void:
 
 
 func perform_dash() -> void:
+	if not is_on_floor():
+		air_dash = false
+
+	stamina = maxi(stamina - 30 , 0)
+	
+	if stamina_bar:
+		stamina_bar.value = stamina
+
 	is_dashing = true
 	dash_timer = dash_duration
 
@@ -174,7 +196,7 @@ func perform_dash() -> void:
 	# рывок расходует возможность прыжка с койотом
 	coyote_timer = 0.0
 	velocity = Vector2(dash_direction * dash_speed , 0.0)
-
+	stamina_regeneration_timer = stamina_regeneration_delay
 
 
 func finish_dash() -> void:
@@ -232,6 +254,11 @@ func _update_surface_speed() -> void:
 
 
 func perform_dodge() -> void:
+	stamina = maxi(stamina - 20 , 0)
+	
+	if stamina_bar:
+		stamina_bar.value = stamina
+
 	is_dodging = true
 	dodge_timer = dodge_duration
 
@@ -241,6 +268,7 @@ func perform_dodge() -> void:
 	coyote_timer = 0.0
 	jump_buffer_timer = 0.0
 
+	stamina_regeneration_timer = stamina_regeneration_delay
 	sprite.flip_h = facing_direction < 0.0
 
 
@@ -258,51 +286,35 @@ func _process_dodge(delta: float) -> void:
 		dodge_cooldown_timer = dodge_cooldown
 
 
-func check_spikes() -> void:
-	if not can_take_damage:
-		return
-	for i in range(get_slide_collision_count()):
-		var collision := get_slide_collision(i)
-		var normal := collision.get_normal()
-		if normal.dot(up_direction) < cos(floor_max_angle):
-			continue
-		var tile_layer := collision.get_collider() as TileMapLayer
-
-		if tile_layer == null:
-			continue
-		
-		if tile_layer.tile_set == null:
-			continue
-		
-		if tile_layer.tile_set.get_custom_data_layer_by_name("damageontouch") == -1:
-			continue
-			
-		var cell := tile_layer.get_coords_for_body_rid(collision.get_collider_rid())
-
-		var tile_data := tile_layer.get_cell_tile_data(cell)
-
-		if tile_data == null:
-			continue
-
-		var damage: int = tile_data.get_custom_data("damageontouch")
-
-		if damage > 0:
-			take_damage(damage)
-			can_take_damage = false
-
-			await get_tree().create_timer(spike_damage_cooldown).timeout
-
-			can_take_damage = true
-
-			return
-
-
 func take_damage(amount: int) -> void:
+	if amount <= 0 or health <= 0:
+		return
+	if damage_cooldown_timer > 0.0:
+		return
+	damage_cooldown_timer = damage_cooldown
 	health = maxi(health - amount, 0)
+
 	if health_bar:
 		health_bar.value = health
+
+	if health <= 0:
+		queue_free()
+		return
+
 	if sprite.sprite_frames.has_animation("take_damage"):
 		hurt_animation_timer = 0.1
 		sprite.play("take_damage")
-	if health <= 0:
-		queue_free()
+
+
+func update_stamina_regeneration(delta: float) -> void:
+	if stamina_regeneration_timer > 0.0:
+		stamina_regeneration_timer = maxf(stamina_regeneration_timer - delta,0.0)
+		return
+
+	if stamina == max_stamina:
+		return
+
+	stamina = minf(stamina + stamina_regeneration * delta,max_stamina)
+
+	if stamina_bar:
+		stamina_bar.value = stamina
