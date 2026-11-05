@@ -1,0 +1,19 @@
+id,en,ru
+MY_GAME,My game,Моя игра
+SETTINGS,Settings,Настройки
+QUIT,Quit,Выход
+VOLUME,Volume,Громкость
+VSYNC,Vsync,Вертикальная синхронизация
+BACK,Back,Назад
+APPLY,Apply,Применить
+FULLSCREEN,Fullscreen,Полноэкранный режим
+START,Start,Начать игру
+LANGUAGE,Language,Язык
+KEYBINDS,Keybinds,Назначение клавиш
+UP,Up, Вверх
+DOWN,Down,Вниз
+RIGHT,Right,Вправо
+LEFT,Left,Влево
+JUMP,Jump,Прыжок
+DASH,Dash,Рывок
+DODGE,Dodge,Уворот
