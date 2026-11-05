@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dc1jq5ho15ju5"]
+
+[ext_resource type="Script" uid="uid://ih57sh7xp7ye" path="res://scenes/debug/button.gd" id="1_58mc2"]
+[ext_resource type="Script" uid="uid://dt7uyftgy0xnl" path="res://scripts/sfx/sfx_player.gd" id="2_374f4"]
+
+[node name="Control" type="Control" unique_id=1500910994]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="." unique_id=1802572576]
+layout_mode = 0
+offset_left = 449.0
+offset_top = 278.0
+offset_right = 636.0
+offset_bottom = 351.0
+text = "Тап-тап сюда"
+script = ExtResource("1_58mc2")
+
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="Button" unique_id=2123562500]
+script = ExtResource("2_374f4")
+metadata/_custom_type_script = "uid://dt7uyftgy0xnl"
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

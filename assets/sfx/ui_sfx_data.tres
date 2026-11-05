@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SfxData" format=3 uid="uid://be7a8u585335k"]
+
+[ext_resource type="Script" uid="uid://bm358eks0qk8r" path="res://scripts/sfx/sfx_data.gd" id="1_o1a47"]
+[ext_resource type="AudioStream" uid="uid://b4y8v4vtg07g6" path="res://assets/sfx/cancel.wav" id="2_o4m3j"]
+
+[resource]
+script = ExtResource("1_o1a47")
+sfx_dict = Dictionary[StringName, AudioStream]({
+&"cancel": ExtResource("2_o4m3j")
+})
+metadata/_custom_type_script = "uid://bm358eks0qk8r"
