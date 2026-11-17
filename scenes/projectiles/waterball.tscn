@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://cmnlmb6dn0vej"]
+
+[ext_resource type="Script" uid="uid://d35vkaftt4s67" path="res://scripts/magic/entities/waterball.gd" id="1_7tod0"]
+[ext_resource type="Texture2D" uid="uid://cs6w6lrv5iqay" path="res://assets/particles/water_drop.png" id="2_qb1lv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_21ynr"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_odv1g"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+inherit_velocity_ratio = 0.1
+spread = 20.0
+initial_velocity_min = 46.82
+initial_velocity_max = 110.369995
+gravity = Vector3(0, 98, 0)
+linear_accel_min = -91.97
+linear_accel_max = -71.91
+scale_max = 1.5
+collision_mode = 2
+
+[sub_resource type="Curve" id="Curve_qb1lv"]
+_data = [Vector2(0, 0.8224852), 0.0, 0.0, 0, 0, Vector2(0.2792363, 0.8284024), 0.045912553, 0.045912553, 0, 0, Vector2(1, 0.13611889), -1.679193, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_7tod0"]
+texture_mode = 1
+curve = SubResource("Curve_qb1lv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7tod0"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 70.0
+emission_ring_radius = 30.0
+emission_ring_inner_radius = 10.0
+emission_ring_cone_angle = 90.0
+spread = 180.0
+orbit_velocity_min = -0.29999992
+orbit_velocity_max = 0.3000001
+radial_velocity_min = -150.00002
+radial_velocity_max = -100.00002
+radial_velocity_curve = SubResource("CurveTexture_7tod0")
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+collision_mode = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7tod0"]
+resource_local_to_scene = true
+
+[node name="WaterBall" type="RigidBody2D" unique_id=678197760]
+physics_material_override = SubResource("PhysicsMaterial_21ynr")
+contact_monitor = true
+max_contacts_reported = 8
+script = ExtResource("1_7tod0")
+metadata/_custom_type_script = "uid://d35vkaftt4s67"
+
+[node name="Destroy" type="GPUParticles2D" parent="." unique_id=130846192]
+emitting = false
+amount = 30
+texture = ExtResource("2_qb1lv")
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+collision_base_size = 4.0
+process_material = SubResource("ParticleProcessMaterial_odv1g")
+
+[node name="Create" type="GPUParticles2D" parent="." unique_id=1997041060]
+emitting = false
+amount = 15
+texture = ExtResource("2_qb1lv")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+collision_base_size = 4.0
+process_material = SubResource("ParticleProcessMaterial_7tod0")
+
+[node name="Visual" type="Polygon2D" parent="." unique_id=1292115451]
+color = Color(0, 0.5803922, 1, 1)
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=397045500]
+shape = SubResource("CircleShape2D_7tod0")
+
+[node name="Timer" type="Timer" parent="." unique_id=2032005764]
+one_shot = true
+
+[node name="HSM" type="LimboHSM" parent="." unique_id=1168432802]
