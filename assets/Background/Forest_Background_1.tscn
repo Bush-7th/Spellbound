@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://s3yvegahggrd"]
 
-[ext_resource type="Texture2D" uid="uid://cyq7y75u7jrui" path="res://изображения/Фон_1.png" id="1_ii3sc"]
-[ext_resource type="Texture2D" uid="uid://cajs13utuxp33" path="res://изображения/Задний план_лес_1.png" id="2_cwde4"]
-[ext_resource type="Texture2D" uid="uid://cgctf23p1d1wm" path="res://изображения/Задний план_лес_2.png" id="3_moxsq"]
-[ext_resource type="Texture2D" uid="uid://b3qeitdsvwotj" path="res://изображения/Лес_перений план_1.png" id="4_e1rqb"]
+[ext_resource type="Texture2D" uid="uid://bxc3w2e14i07t" path="res://assets/Background/Задний план_лес_1.png" id="2_cwde4"]
+[ext_resource type="Texture2D" uid="uid://bluvb8ubcfsmf" path="res://assets/Background/Задний план_лес_2.png" id="3_moxsq"]
+[ext_resource type="Texture2D" uid="uid://o6sp3qdi02an" path="res://assets/Background/Лес_перений план_1.png" id="4_e1rqb"]
 
 [node name="Node2D" type="Node2D" unique_id=1521293522]
 
@@ -16,7 +15,7 @@ repeat_times = 2
 [node name="Фон1" type="Sprite2D" parent="Parallax2D" unique_id=930888446]
 position = Vector2(576, 328)
 scale = Vector2(2.304, 2.1866667)
-texture = ExtResource("1_ii3sc")
+texture = ExtResource("2_cwde4")
 
 [node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1573353189]
 scroll_scale = Vector2(0.2, 1)
