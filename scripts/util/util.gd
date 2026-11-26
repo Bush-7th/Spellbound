@@ -76,3 +76,44 @@ class SymmetricBoolMatrix:
 				s += str(int(get_item(i, j))) + " "
 			s += "\n"
 		return s
+
+
+class RandomArrayIterator:
+	var _cur
+	var _arr: Array
+	var _cnt: int
+	
+	func _init(arr: Array, cnt: int) -> void:
+		_arr = arr
+		_cnt = 0 if arr.is_empty() else cnt
+	
+	func _iter_init(iter: Array) -> bool:
+		if _cnt:
+			_cur = _arr.pick_random()
+			iter[0] = _cur
+		return bool(_cnt)
+	
+	func _iter_next(iter: Array) -> bool:
+		_cur = _arr.pick_random()
+		iter[0] = _cur
+		_cnt -= 1
+		return bool(_cnt)
+	
+	func _iter_get(iter: Variant) -> Variant:
+		return iter
+
+
+class Awaitable:
+	var _awaitable
+	
+	func _init(awaitable) -> void:
+		if awaitable is not Signal && awaitable is not Callable:
+			printerr("Passed variant is not awaitable")
+			return
+		_awaitable = awaitable
+	
+	func wait() -> void:
+		if _awaitable is Signal:
+			await _awaitable
+		elif _awaitable is Callable:
+			await _awaitable.call()

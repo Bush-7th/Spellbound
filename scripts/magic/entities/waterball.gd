@@ -8,11 +8,14 @@ class_name WaterBall extends RigidBody2D
 @onready var _timer: Timer = $Timer
 
 signal collided
+signal completed(failed: bool)
+
+var completion_status := EvaluationStatus.new()
 
 var target: Target
 var force_scale: float = 200
 @export var follow_time_limit: float = 1
-@export var existence_time_limit: float = 1#.05
+@export var existence_time_limit: float = 1
 
 var _radius: int = 10
 var radius: int:
@@ -23,7 +26,7 @@ var radius: int:
 		_collider.shape.radius = val
 		_update_visual()
 
-const _polygon_edge_length: float = 4
+const _polygon_edge_length: float = 6
 var size_el: float = .2
 
 func _ready() -> void:
@@ -98,12 +101,23 @@ func _process_follow_existence(_delta: float) -> void:
 	_visual.rotation = linear_velocity.angle()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	state.apply_central_force(global_position.direction_to(target.get_position()) * force_scale)
+	if is_instance_valid(target) && !completion_status.has_completed:
+		state.apply_central_force(global_position.direction_to(target.get_position()) * force_scale)
 
 func _physics_process(_delta: float) -> void:
-	if get_colliding_bodies().size() > 0:
+	if !completion_status.has_completed && get_colliding_bodies().size() > 0:
+		_complete(false, EvaluationStatus.SpatialResult.new(global_position, linear_velocity))
 		gravity_scale = 1
 		collided.emit()
+
+func _complete(failed: bool, result: EvaluationStatus.SpatialResult = null) -> void:
+	if completion_status.has_completed:
+		return
+	completion_status.complete(failed, result)
+	completed.emit(failed)
+
+func _exit_tree() -> void:
+	_complete(true)
 
 func _update_visual() -> void:
 	var point_count := roundi(TAU * _radius / _polygon_edge_length)
@@ -117,15 +131,17 @@ func _update_visual() -> void:
 	_visual.polygon = points
 
 func _destroy() -> void:
+	# A hit resolved success before dispatching destruction; timeouts resolve failure.
+	_complete(true)
 	_visual.hide()
 	collision_layer = 0
 	collision_mask = 0
 	freeze = true
-	_particles_destroy.rotation = (
-		linear_velocity.rotated(PI).angle()
-		if _hsm.get_previous_active_state().name == &"Follow" else 
-		lerp_angle(linear_velocity.angle(), get_gravity().angle(), 0.3)
-	)
+	var previous_state := _hsm.get_previous_active_state()
+	if previous_state != null && previous_state.name == &"Follow":
+		_particles_destroy.rotation = linear_velocity.rotated(PI).angle()
+	else:
+		_particles_destroy.rotation = lerp_angle(linear_velocity.angle(), get_gravity().angle(), 0.3)
 	_particles_destroy.reset_physics_interpolation()
 	_particles_destroy.restart()
 	await _particles_destroy.finished

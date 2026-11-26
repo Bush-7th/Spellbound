@@ -1,37 +1,56 @@
-extends ElementarySpell
+@abstract
+extends RefCounted
 
-var _waterball_scene := preload("res://scenes/projectiles/waterball.tscn")
+const _waterball_scene := preload("res://scenes/projectiles/waterball.tscn")
 
-func eval(cast_ctx: CastContext, layer_ctx: LayerContext):
+static func eval(ctx: BranchContext) -> Array[BranchContext]:
+	var caster := ctx.cast_ctx.caster
+	if !is_instance_valid(caster) || !caster.is_inside_tree():
+		return []
 	var region := CollisionShape2D.new()
 	region.shape = CircleShape2D.new()
 	region.shape.radius = 100
-	region.global_position = cast_ctx.caster.global_position + cast_ctx.impulse.normalized() * 100
+	region.global_position = ctx.anchor + ctx.impulse.normalized() * 100
 	
 	var selector := FreeSpaceSelector.new()
 	selector.region = region
 	selector.selector_shape = CircleShape2D.new()
 	selector.selector_shape.radius = 20
 	
-	var pos = selector.select_multiple(cast_ctx.caster.get_world_2d().direct_space_state, 3)
-	print(pos, ' ', cast_ctx.caster.global_position)
-	#waterball.position = cast_ctx.anchor + cast_ctx.impulse * .5
-	#waterball.target = get_target(cast_ctx, layer_ctx)
-	var parent_node := cast_ctx.caster.get_node(^"%LiquidCanvas")
-	for i in range(pos.size()):
-		_summon_waterball(pos[i], get_target(cast_ctx, layer_ctx), parent_node)
+	var waterballs: Array[WaterBall] = []
+	var positions := selector.select_multiple(caster.get_world_2d().direct_space_state, 3)
+	region.free()
+	var parent_node := caster.get_node(^"%LiquidCanvas")
+	var targets := ctx.get_targets(_get_default_target_selector())
+	for position in positions:
+		var target: Target = targets.pick_random() if !targets.is_empty() else FixedTarget.new(ctx.anchor + ctx.impulse * 100)
+		waterballs.append(
+			_summon_waterball(position, target, parent_node)
+		)
+	
+	var overrides := BranchOverrides.new()
+	overrides.subjects_override = func(ball: WaterBall) -> Array: return [ball]
+	overrides.completion_override = func(ball: WaterBall) -> EvaluationStatus: return ball.completion_status
+	var children := ctx.branch(waterballs, overrides)
+	# All children have their completion handles before effects can start.
+	for waterball in waterballs:
+		waterball.eval()
+	return children
 
-func _summon_waterball(pos: Vector2, target: Target, parent_node: Node) -> void:
+static func _summon_waterball(pos: Vector2, target: Target, parent_node: Node) -> WaterBall:
 	var waterball: WaterBall = _waterball_scene.instantiate()
-	waterball.global_position = pos
 	waterball.target = target
 	parent_node.add_child(waterball)
-	waterball.eval()
+	waterball.global_position = pos
+	waterball.reset_physics_interpolation()
+	return waterball
 
-func _get_info() -> SpellRegister.SpellInfo:
-	return SpellRegister.SpellInfo.new(
+static var _info: SpellRegister.SpellInfo = (
+	SpellRegister.SpellInfo.new(
 		SpellRegister.MagicSchool.ELEMENTAL
-	)
+))
+static var info:
+	get: return _info
 
-func _get_default_target_selector() -> TargetSelector:
+static func _get_default_target_selector() -> TargetSelector:
 	return NearestTargetSelector.new()

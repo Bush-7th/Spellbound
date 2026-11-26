@@ -8,7 +8,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_odv1g"]
 shader = ExtResource("3_21ynr")
 shader_parameter/target_resolution = Vector2i(592, 333)
-shader_parameter/target_alpha = -1.0
+shader_parameter/max_alpha = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p25xl"]
 shader = ExtResource("5_0ghan")
@@ -30,7 +30,7 @@ color_ramp = SubResource("Gradient_bdebx")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_21ynr"]
 shader = ExtResource("3_21ynr")
 shader_parameter/target_resolution = Vector2i(320, 180)
-shader_parameter/target_alpha = 0.5
+shader_parameter/max_alpha = 0.5
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_odv1g"]
 
@@ -61,8 +61,8 @@ texture = SubResource("NoiseTexture2D_odv1g")
 
 [node name="LiquidCanvas" type="CanvasGroup" parent="." unique_id=1767765974]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.5019608)
 material = SubResource("ShaderMaterial_21ynr")
+use_mipmaps = true
 
 [node name="Test" type="CharacterBody2D" parent="." unique_id=762246494]
 position = Vector2(317, 550)

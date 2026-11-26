@@ -48,6 +48,8 @@ func select_multiple(direct_space_state: PhysicsDirectSpaceState2D, count: int) 
 			intersect_graph.set_item(i, j,
 				Util.do_intersect(shape1, shape2)
 			)
+	shape1.free()
+	shape2.free()
 	
 	var excluded: PackedByteArray
 	var excluded_cnt := 0

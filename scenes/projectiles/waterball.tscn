@@ -6,7 +6,7 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_21ynr"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_odv1g"]
-lifetime_randomness = 0.2
+lifetime_randomness = 0.4
 particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 10.0
@@ -77,7 +77,8 @@ collision_base_size = 4.0
 process_material = SubResource("ParticleProcessMaterial_7tod0")
 
 [node name="Visual" type="Polygon2D" parent="." unique_id=1292115451]
-color = Color(0, 0.5803922, 1, 1)
+color = Color(0, 0.5019608, 1, 1)
+antialiased = true
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=397045500]
 shape = SubResource("CircleShape2D_7tod0")
