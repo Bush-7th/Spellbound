@@ -1,0 +1,48 @@
+[gd_resource type="TileSet" format=3 uid="uid://dd44rgao8xmlx"]
+
+[ext_resource type="Texture2D" uid="uid://b2y1o30gk8at3" path="res://assets/tileset/test_tileset.png" id="1_frb25"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_233by"]
+friction = 0.6
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_frb25"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_5otc7"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_kjqi2"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4ljc6"]
+polygon = PackedVector2Array(-8, -8, 24, -8, 24, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_srtt2"]
+texture = ExtResource("1_frb25")
+0:0/0 = 0
+0:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_frb25")
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+1:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_kjqi2")
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/size_in_atlas = Vector2i(2, 1)
+2:0/0 = 0
+2:0/0/texture_origin = Vector2i(-8, 0)
+2:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_4ljc6")
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 24, -8, 24, 8, -8, 8)
+0:1/animation_columns = 4
+0:1/animation_frame_0/duration = 1.0
+0:1/animation_frame_1/duration = 1.0
+0:1/animation_frame_2/duration = 1.0
+0:1/animation_frame_3/duration = 1.0
+0:1/0 = 0
+0:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_5otc7")
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[resource]
+occlusion_layer_0/light_mask = 512
+occlusion_layer_0/sdf_collision = true
+physics_layer_0/collision_layer = 1
+physics_layer_0/physics_material = SubResource("PhysicsMaterial_233by")
+physics_layer_1/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_srtt2")
