@@ -5,7 +5,7 @@ var cast_ctx: CastContext
 var anchor: Vector2
 var impulse: Vector2
 var subjects: Array[PhysicsBody2D] = []
-var impact_multiplier := 1.0
+var remaining_impact: float
 
 var _targets: Array[Target] = []
 var _targets_resolved := false
@@ -23,6 +23,7 @@ func _init(context: CastContext) -> void:
 	cast_ctx = context
 	anchor = context.position
 	impulse = context.impulse
+	remaining_impact = context.impact
 
 func duplicate() -> BranchContext:
 	var ctx := BranchContext.new(cast_ctx)
@@ -31,7 +32,7 @@ func duplicate() -> BranchContext:
 	ctx.subjects = subjects.duplicate()
 	ctx._targets = _targets.duplicate()
 	ctx._targets_resolved = _targets_resolved
-	ctx.impact_multiplier = impact_multiplier
+	ctx.remaining_impact = remaining_impact
 	ctx._cursor = _cursor
 	ctx._pending = _pending.duplicate()
 	return ctx
@@ -41,7 +42,7 @@ func branch(data: Array, overrides: BranchOverrides = null) -> Array[BranchConte
 	var children: Array[BranchContext] = []
 	for item in data:
 		var child := duplicate()
-		child.impact_multiplier /= data.size()
+		child.remaining_impact /= data.size()
 		if overrides != null:
 			if overrides.targets_override.is_valid():
 				child.targets.assign(overrides.targets_override.call(item))
@@ -96,5 +97,10 @@ func get_target(default_selector: TargetSelector) -> Target:
 	var selected := get_targets(default_selector)
 	return selected.pick_random() if !selected.is_empty() else EmptyTarget.TARGET
 
-func get_school_impact(magic_school: SpellRegister.MagicSchool) -> float:
-	return cast_ctx.get_school_impact(magic_school) * impact_multiplier
+## Spend before eval so any children inherit only the unspent remainder.
+func _allocate_impact(remaining_spell_count: int) -> float:
+	assert(remaining_spell_count > 0, "Impact allocation requires at least the current spell")
+	assert(is_finite(remaining_impact) && remaining_impact >= 0, "Remaining impact must be finite and nonnegative")
+	var allocated := remaining_impact / remaining_spell_count
+	remaining_impact -= allocated
+	return allocated

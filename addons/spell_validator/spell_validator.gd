@@ -57,12 +57,14 @@ static func validation_errors(spell: Script) -> PackedStringArray:
 	var method := _evaluation_method(spell, errors)
 	if method.is_empty():
 		return errors
-	if _validate_argument_count(method, 2, errors):
+	if _validate_argument_count(method, 3, errors):
 		if method.args[0]['class_name'] != "BranchContext":
 			errors.append("Eval first argument must be BranchContext")
-		var values: Dictionary = method.args[1]
+		if method.args[1].type != TYPE_FLOAT:
+			errors.append("Eval second argument must be float impact")
+		var values: Dictionary = method.args[2]
 		if values.type != TYPE_DICTIONARY || values.hint != PROPERTY_HINT_DICTIONARY_TYPE || values.hint_string != "SpellRegister.Attribute;Variant":
-			errors.append("Eval second argument must be Dictionary[SpellRegister.Attribute, Variant]")
+			errors.append("Eval third argument must be Dictionary[SpellRegister.Attribute, Variant]")
 	var result: Dictionary = method['return']
 	if result.type != TYPE_ARRAY || result.hint != PROPERTY_HINT_ARRAY_TYPE || result.hint_string != "BranchContext":
 		errors.append("Eval must return Array[BranchContext]")

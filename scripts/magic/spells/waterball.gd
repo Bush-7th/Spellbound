@@ -15,7 +15,7 @@ static func _static_init() -> void:
 static func _default_force_scale(_ctx: BranchContext, _current_value: Variant) -> float:
 	return 200.0
 
-static func eval(ctx: BranchContext, values: Dictionary[SpellRegister.Attribute, Variant]) -> Array[BranchContext]:
+static func eval(ctx: BranchContext, _impact: float, values: Dictionary[SpellRegister.Attribute, Variant]) -> Array[BranchContext]:
 	var caster := ctx.cast_ctx.caster
 	if !is_instance_valid(caster) || !caster.is_inside_tree():
 		return []

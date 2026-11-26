@@ -15,10 +15,13 @@ func _init(script: Script, modifiers: Array[ModifierHolder] = []) -> void:
 	_modifiers = modifiers.duplicate()
 	_modifiers.make_read_only()
 
-func eval(ctx: BranchContext) -> Array[BranchContext]:
+func eval(ctx: BranchContext, allocate_impact: Callable) -> Array[BranchContext]:
+	assert(allocate_impact.is_valid(), "Impact allocator required")
 	for modifier in _modifiers:
 		modifier.eval(ctx)
-	return _eval.call(ctx, _resolve_attributes(ctx))
+	var values := _resolve_attributes(ctx)
+	var impact: float = allocate_impact.call()
+	return _eval.call(ctx, impact, values)
 
 func _resolve_attributes(ctx: BranchContext) -> Dictionary[SpellRegister.Attribute, Variant]:
 	var values: Dictionary[SpellRegister.Attribute, Variant] = {}

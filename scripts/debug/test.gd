@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 var selector := NearestTargetSelector.new()
 var out: Array[Target] = []
-var placeholder: PackedFloat64Array
 
 var spell := Spell.new()
 
@@ -11,8 +10,6 @@ var _normal_speed: float = 100
 
 func _init() -> void:
 	SpellRegister.register_all()
-	placeholder.resize(SpellRegister.MagicSchool.SIZE)
-	placeholder[SpellRegister.MagicSchool.ELEMENTAL] = 1.0
 	var layer := Spell.SpellLayer.new()
 	layer.spells.append(
 		ElementarySpellHolder.new(preload("res://scripts/magic/spells/waterball.gd")
@@ -34,8 +31,7 @@ func _physics_process(delta: float) -> void:
 			self,
 			self.global_position,
 			_facing_dir * (_normal_speed + real_velocity.length()) / 2,
-			10,
-			placeholder
+			10
 		)
 		spell.eval(_cast_ctx)
 		_cast_ctx.reset()

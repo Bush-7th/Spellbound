@@ -10,6 +10,12 @@ func compile_layers(layers: Array[SpellLayer]) -> void:
 		for spell in layer.spells:
 			operations.append(Operation.evaluate(spell))
 		operations.append(Operation.wait_for_effects())
+	# Structural counts are fixed; impact amounts are calculated at invocation.
+	var remaining := 0
+	for i in range(operations.size() - 1, -1, -1):
+		if operations[i].kind == Operation.Kind.EVALUATE:
+			remaining += 1
+		operations[i].remaining_spells = remaining
 	_program = operations
 	_program.make_read_only()
 
@@ -32,6 +38,7 @@ class Operation extends RefCounted:
 	enum Kind { EVALUATE, WAIT }
 	var kind: Kind
 	var spell: ElementarySpellHolder
+	var remaining_spells: int
 
 	static func evaluate(elementary_spell: ElementarySpellHolder) -> Operation:
 		assert(elementary_spell != null, "ElementarySpellHolder required")
@@ -110,7 +117,8 @@ class Execution extends RefCounted:
 				branch._cursor += 1
 			else:
 				branch._cursor += 1
-				var children := operation.spell.eval(branch)
+				var allocate_impact := branch._allocate_impact.bind(operation.remaining_spells)
+				var children := operation.spell.eval(branch, allocate_impact)
 				# Evaluation can synchronously remove the caster and cancel this cast.
 				if status.has_completed:
 					return
