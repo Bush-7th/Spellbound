@@ -3,7 +3,19 @@ extends RefCounted
 
 const _waterball_scene := preload("res://scenes/projectiles/waterball.tscn")
 
-static func eval(ctx: BranchContext) -> Array[BranchContext]:
+static var _attributes: Dictionary[SpellRegister.Attribute, Callable] = {
+	SpellRegister.Attribute.FORCE_SCALE: _default_force_scale,
+}
+static var attributes: Dictionary[SpellRegister.Attribute, Callable]:
+	get: return _attributes
+
+static func _static_init() -> void:
+	_attributes.make_read_only()
+
+static func _default_force_scale(_ctx: BranchContext, _current_value: Variant) -> float:
+	return 200.0
+
+static func eval(ctx: BranchContext, values: Dictionary[SpellRegister.Attribute, Variant]) -> Array[BranchContext]:
 	var caster := ctx.cast_ctx.caster
 	if !is_instance_valid(caster) || !caster.is_inside_tree():
 		return []
@@ -25,7 +37,7 @@ static func eval(ctx: BranchContext) -> Array[BranchContext]:
 	for position in positions:
 		var target: Target = targets.pick_random() if !targets.is_empty() else FixedTarget.new(ctx.anchor + ctx.impulse * 100)
 		waterballs.append(
-			_summon_waterball(position, target, parent_node)
+			_summon_waterball(position, target, parent_node, values[SpellRegister.Attribute.FORCE_SCALE])
 		)
 	
 	var overrides := BranchOverrides.new()
@@ -37,9 +49,10 @@ static func eval(ctx: BranchContext) -> Array[BranchContext]:
 		waterball.eval()
 	return children
 
-static func _summon_waterball(pos: Vector2, target: Target, parent_node: Node) -> WaterBall:
+static func _summon_waterball(pos: Vector2, target: Target, parent_node: Node, force_scale: float) -> WaterBall:
 	var waterball: WaterBall = _waterball_scene.instantiate()
 	waterball.target = target
+	waterball.force_scale = force_scale
 	parent_node.add_child(waterball)
 	waterball.global_position = pos
 	waterball.reset_physics_interpolation()

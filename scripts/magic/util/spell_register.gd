@@ -1,5 +1,11 @@
 class_name SpellRegister extends RefCounted
 
+## A spell only supports the attributes declared in its attributes dictionary.
+enum Attribute {
+	FORCE_SCALE,
+	SHAPE,
+}
+
 static var _register: Array[Script] = []
 
 static func register_all(path: String = "res://scripts/magic/spells") -> void:
