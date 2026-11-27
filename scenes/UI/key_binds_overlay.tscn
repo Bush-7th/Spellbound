@@ -1,0 +1,267 @@
+[gd_scene format=3 uid="uid://fyv3cwcqr0gn"]
+
+[ext_resource type="Script" uid="uid://b4andqrbvyais" path="res://Scripts/UI/KeyBindsUI.gd" id="1_v7gsw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hh8ll"]
+bg_color = Color(0.16470589, 0.16470589, 0.16470589, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t5d4b"]
+bg_color = Color(0.16470589, 0.16470589, 0.16470589, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_famd7"]
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tejml"]
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_emsxj"]
+bg_color = Color(0.20392157, 0.20392157, 0.20392157, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cfgwl"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0, 0.49803922, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8p6kc"]
+bg_color = Color(1, 0.3019608, 0.6509804, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vgu2x"]
+bg_color = Color(1, 0.3019608, 0.6509804, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="key_binds_overlay" type="CanvasLayer" unique_id=654040772]
+script = ExtResource("1_v7gsw")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1984842082]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14044744, 0.14044744, 0.14044744, 0.6901961)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=26781521]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=975623146]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hh8ll")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1212766894]
+layout_mode = 2
+
+[node name="KeyBinds_label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1580550606]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "KEYBINDS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=782210832]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_t5d4b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1782564615]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Up_HBCont" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=935703469]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 34
+
+[node name="Up_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Up_HBCont" unique_id=970269800]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "UP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Up_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Up_HBCont" unique_id=443586484]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_famd7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tejml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emsxj")
+
+[node name="Down_HBCont" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=1232797448]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 34
+
+[node name="Down_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Down_HBCont" unique_id=1372043784]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "DOWN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Down_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Down_HBCont" unique_id=1093380293]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_famd7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tejml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emsxj")
+
+[node name="Left_HBCont" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=566889787]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 34
+
+[node name="Left_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Left_HBCont" unique_id=933738786]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "LEFT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Left_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Left_HBCont" unique_id=1308544376]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_famd7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tejml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emsxj")
+
+[node name="Right_HBCont" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=1857654149]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 34
+
+[node name="Right_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Right_HBCont" unique_id=725246277]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "RIGHT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Right_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Right_HBCont" unique_id=149296708]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_famd7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tejml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emsxj")
+
+[node name="Jump_HBCont" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=59584393]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 34
+
+[node name="Jump_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Jump_HBCont" unique_id=79813103]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "JUMP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Jump_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Jump_HBCont" unique_id=1271739716]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_famd7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tejml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emsxj")
+
+[node name="Dash_HBCont" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=2080768860]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 34
+
+[node name="Dash_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Dash_HBCont" unique_id=1970947738]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "DASH"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dash_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Dash_HBCont" unique_id=939825205]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_famd7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tejml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emsxj")
+
+[node name="Dodge_HBCont2" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=65895306]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 34
+
+[node name="Dodge_Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Dodge_HBCont2" unique_id=1709613315]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "DODGE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dodge_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/Dodge_HBCont2" unique_id=1157127912]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_famd7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tejml")
+theme_override_styles/hover = SubResource("StyleBoxFlat_emsxj")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer" unique_id=1014917946]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 43
+
+[node name="Apply_Button" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=307779763]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_cfgwl")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8p6kc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vgu2x")
+text = "APPLY"
